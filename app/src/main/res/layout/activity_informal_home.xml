@@ -21,14 +21,15 @@
         app:popupTheme="@style/AppTheme.PopupOverlay">
 
         <Button
-            android:id="@+id/customer_home_btn_book"
+            android:id="@+id/informal_btn_create_event"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="@dimen/margin_normal"
             android:background="@color/orange"
             android:padding="@dimen/margin_normal"
-            android:text="Book"
+            android:text="Create Event"
+            android:textAllCaps="false"
             android:textColor="@color/white" />
 
     </android.support.v7.widget.Toolbar>
@@ -39,8 +40,12 @@
         android:id="@+id/profile_tl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:background="@color/darkerBlue"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
+        android:background="@color/white"
+        android:scrollbarAlwaysDrawHorizontalTrack="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/customer_home_abl">
 
     </android.support.design.widget.TabLayout>
@@ -49,18 +54,18 @@
         android:id="@+id/informal_home_vp"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
         android:background="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/include"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_tl"
-        app:layout_constraintBottom_toTopOf="@id/include"/>
+        app:layout_constraintTop_toBottomOf="@+id/profile_tl" />
 
     <include
         android:id="@+id/include"
         layout="@layout/bottom"
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
