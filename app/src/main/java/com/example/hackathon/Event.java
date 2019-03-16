@@ -15,16 +15,11 @@ public class Event implements Serializable {
     private ArrayList<User> participants;
     private String location;
     private String category;
+    private Long creationTime;
+    private String senderUID;
+    private String hostName, hostImage;
 
     public Event() {
-    }
-
-    public String getEventId() {
-        return eventId;
-    }
-
-    public void setEventId(String eventId) {
-        this.eventId = eventId;
     }
 
     public String getStartDate() {
@@ -41,6 +36,14 @@ public class Event implements Serializable {
 
     public void setEndDate(Timestamp endDate) {
         this.endDate = endDate;
+    }
+
+    public String getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(String eventId) {
+        this.eventId = eventId;
     }
 
     public boolean isFormal() {
@@ -97,5 +100,37 @@ public class Event implements Serializable {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public Long getCreationTime() {
+        return creationTime;
+    }
+
+    public void setCreationTime(Long creationTime) {
+        this.creationTime = creationTime;
+    }
+
+    public String getSenderUID() {
+        return senderUID;
+    }
+
+    public void setSenderUID(String senderUID) {
+        this.senderUID = senderUID;
+    }
+
+    public String getHostName() {
+        return hostName;
+    }
+
+    public void setHostName(String hostName) {
+        this.hostName = hostName;
+    }
+
+    public String getHostImage() {
+        return hostImage;
+    }
+
+    public void setHostImage(String hostImage) {
+        this.hostImage = hostImage;
     }
 }

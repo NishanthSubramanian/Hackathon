@@ -10,11 +10,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -22,26 +24,33 @@ class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.MyViewHolder> {
     private Context context;
     private Integer type;
     private ArrayList<Event> events;
+    private HashMap<String, User> users;
 
+    public Boolean isUserPresent(String s){
+        return users.containsKey(s);
+    }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView name, tags, landmark, distance;
+        public TextView name,description, title, time;
         public CircleImageView photo;
         public ConstraintLayout constraintLayout;
         public Button accept;
+        public ImageView isFavourite;
 
         public MyViewHolder(View view) {
             super(view);
-            name = view.findViewById(R.id.event_title);
-            photo = view.findViewById(R.id.event_host);
+            photo = view.findViewById(R.id.event_civ);
+            name = view.findViewById(R.id.event_host);
+            title = view.findViewById(R.id.event_title);
+            time = view.findViewById(R.id.event_time);
+            isFavourite = view.findViewById(R.id.event_fav);
         }
     }
 
 
-    public EventsAdapter(Context context, ArrayList<Event> events, Integer type) {
+    public EventsAdapter(Context context, ArrayList<Event> events) {
         this.context = context;
         this.events = events;
-        this.type = type;
     }
 
     @NonNull
@@ -56,7 +65,12 @@ class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.MyViewHolder> {
 
     @Override
     public void onBindViewHolder(final EventsAdapter.MyViewHolder holder, final int position) {
+        Event event = events.get(position);
 
+        holder.title.setText(event.getTitle());
+        Glide.with(context).load(event.getHostImage()).into(holder.photo);
+        holder.time.setText(event.getStartDate());
+        holder.name.setText(event.getHostName());
 
     }
 
@@ -65,13 +79,13 @@ class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.MyViewHolder> {
        return events.size();
     }
 
-   /* public void added(Services c){
-        Log.d("added @ adapter", servicesArrayList.size()+"s");
-        servicesArrayList.add(c);
-        notifyItemInserted(servicesArrayList.indexOf(c));
+    public void added(Event e){
+        Log.d("added @ adapter", events.size()+"s");
+        events.add(e);
+        notifyItemInserted(events.indexOf(e));
     }
 
-    public void addedFromCustomer(Labourer labourer){
+    /*public void addedFromCustomer(Labourer labourer){
         Log.d("addedFromCustomer ", labourers.size()+"s");
         labourers.add(labourer);
         notifyItemInserted(labourers.indexOf(labourer));

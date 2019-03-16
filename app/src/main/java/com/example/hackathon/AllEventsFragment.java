@@ -15,8 +15,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
 
 import javax.annotation.Nullable;
 
@@ -77,6 +80,7 @@ public class AllEventsFragment extends Fragment  {
     private FirebaseFirestore firebaseFirestore;
     private FirebaseAuth firebaseAuth;
     private RecyclerView recyclerView;
+    private EventsAdapter eventsAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -88,8 +92,9 @@ public class AllEventsFragment extends Fragment  {
         firebaseFirestore = FirebaseFirestore.getInstance();
         recyclerView = view.findViewById(R.id.all_events_rv);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-
-        firebaseFirestore.collection("events").whereEqualTo("endTime",null)
+        eventsAdapter = new EventsAdapter(view.getContext(),new ArrayList<Event>());
+        recyclerView.setAdapter(eventsAdapter);
+        firebaseFirestore.collection("events").whereEqualTo("endTime",null).orderBy("creation", Query.Direction.ASCENDING)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
@@ -102,6 +107,11 @@ public class AllEventsFragment extends Fragment  {
                         for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
                             if (doc.get("name") != null) {
                                 Log.w(TAG, "Listen suxxx.", (Throwable) doc.getData());
+                                    Event event = doc.toObject(Event.class);
+                                    event.setEventId(doc.getId());
+                                    //event.compute();
+                                   // if(eventsAdapter.isUserPresent(event.))
+                                eventsAdapter.added(event);
                             }
                         }
                     }
