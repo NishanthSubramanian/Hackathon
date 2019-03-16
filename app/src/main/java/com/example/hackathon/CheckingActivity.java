@@ -66,32 +66,32 @@ public class CheckingActivity extends AppCompatActivity {
                                 Log.d(TAG, "club");
 
                                 if (session.isSetup(current_user_id)) {
-                                    /*Log.d("isSetup", "customer");
-                                    Intent customer = new Intent(CheckingActivity.this, CustomerHomeActivity.class);
-                                    customer.putExtra("customer", session.getCustomer(current_user_id));
-                                    startActivity(customer);
-                                    finish();*/
+                                    Log.d("isSetup", "club");
+                                    Intent formal = new Intent(CheckingActivity.this, FormalHomeActivity.class);
+                                    //customer.putExtra("customer", session.getCustomer(current_user_id));
+                                    startActivity(formal);
+                                    finish();
                                 } else {
-                                    firebaseFirestore.collection("customer").document(current_user_id).get()
+                                    firebaseFirestore.collection("formal").document(current_user_id).get()
                                             .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                                 @Override
                                                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                                                     if (documentSnapshot.exists()) {
                                                         /*CustomerFinal customer = documentSnapshot.toObject(CustomerFinal.class);
-                                                        *//*session.createProfileCustomer(customer.getName(),customer.getImage(),customer.getDob(),customer.getCity()
+                                                        session.createProfileCustomer(customer.getName(),customer.getImage(),customer.getDob(),customer.getCity()
                                                         ,customer.getState(),customer.getPhone(),customer.getAddressLine1(),customer.getAddressLine2()
-                                                                ,customer.getAddressLine3());*//*
-                                                        session.saveCustomer(customer);
+                                                                ,customer.getAddressLine3());
+                                                        session.saveCustomer(customer);*/
 
-                                                        Intent intent = new Intent(CheckingActivity.this, CustomerHomeActivity.class);
-                                                        intent.putExtra("customer", customer);
-                                                        startActivity(intent);*/
+                                                        Intent intent = new Intent(CheckingActivity.this, FormalHomeActivity.class);
+                                                        //intent.putExtra("customer", customer);
+                                                        startActivity(intent);
 
                                                     } else {
-                                                       /* Intent customer = new Intent(CheckingActivity.this, SetupActivity.class);
+                                                        Intent customer = new Intent(CheckingActivity.this, SetupActivity.class);
                                                         customer.putExtra("type", "customer");
                                                         startActivity(customer);
-                                                        finish();*/
+                                                        finish();
                                                     }
                                                 }
                                             })
@@ -111,15 +111,15 @@ public class CheckingActivity extends AppCompatActivity {
                                 }*/
 
                             } else {
-                                session.setType("labourer");
-                                Log.d(TAG, "labourer");
+                                session.setType("informal");
+                                Log.d(TAG, "informal");
                                 if (session.isSetup(current_user_id)) {
-                                   /* Intent labourer = new Intent(CheckingActivity.this, LabourerMainActivity.class);
-                                    labourer.putExtra("labourer", session.getLabourer(current_user_id));
-                                    startActivity(labourer);
-                                    finish();*/
+                                    Intent informal = new Intent(CheckingActivity.this, InformalHomeActivity.class);
+                                    //.putExtra("labourer", session.getLabourer(current_user_id));
+                                    startActivity(informal);
+                                    finish();
                                 } else {
-                                    firebaseFirestore.collection("labourer").document(current_user_id).get()
+                                    firebaseFirestore.collection("informal").document(current_user_id).get()
                                             .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                                 @Override
                                                 public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -129,7 +129,7 @@ public class CheckingActivity extends AppCompatActivity {
                                                                 , labourer.getState(), labourer.getPhone(), labourer.getAddressLine1(), labourer.getAddressLine2()
                                                                 , labourer.getAddressLine3(), labourer.getSkill(), 9L);
 
-                                                        Intent intent = new Intent(CheckingActivity.this, LabourerHomeActivity.class);
+                                                        Intent intent = new Intent(CheckingActivity.this, InformalHomeActivity.class);
                                                         startActivity(intent);*/
 
                                                     } else {
