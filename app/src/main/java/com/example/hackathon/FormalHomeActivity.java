@@ -37,7 +37,7 @@ public class FormalHomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_formal_home);
 
         mTextMessage = (TextView) findViewById(R.id.message);
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottom_nav_view);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
 
