@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Hackathon</string>
+    <string-array name="category">
+        <item>Sports</item>
+        <item>Tech</item>
+        <item>Literature</item>
+    </string-array>
 </resources>
