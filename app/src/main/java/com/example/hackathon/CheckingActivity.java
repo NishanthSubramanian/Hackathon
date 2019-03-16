@@ -49,9 +49,7 @@ public class CheckingActivity extends AppCompatActivity {
         if (currentUser == null) {
             Log.d(TAG, "send to login : Checking");
             sendToLogin();
-        } /*else if (session.isLoggedIn()) {
-
-        } */else {
+        } else {
             current_user_id = mAuth.getCurrentUser().getUid();
             Log.d(TAG, current_user_id);
 
@@ -68,7 +66,7 @@ public class CheckingActivity extends AppCompatActivity {
                                 if (session.isSetup(current_user_id)) {
                                     Log.d("isSetup", "club");
                                     Intent formal = new Intent(CheckingActivity.this, FormalHomeActivity.class);
-                                    //customer.putExtra("customer", session.getCustomer(current_user_id));
+                                    formal.putExtra("formal", session.getUser(current_user_id));
                                     startActivity(formal);
                                     finish();
                                 } else {
@@ -82,16 +80,17 @@ public class CheckingActivity extends AppCompatActivity {
                                                         ,customer.getState(),customer.getPhone(),customer.getAddressLine1(),customer.getAddressLine2()
                                                                 ,customer.getAddressLine3());
                                                         session.saveCustomer(customer);*/
-
+                                                        User user = documentSnapshot.toObject(User.class);
                                                         Intent intent = new Intent(CheckingActivity.this, FormalHomeActivity.class);
-                                                        //intent.putExtra("customer", customer);
+                                                        intent.putExtra("formal", user);
                                                         startActivity(intent);
 
                                                     } else {
-                                                        Intent customer = new Intent(CheckingActivity.this, SetupActivity.class);
+                                                       /* Intent customer = new Intent(CheckingActivity.this, SetupActivity.class);
                                                         customer.putExtra("type", "customer");
                                                         startActivity(customer);
-                                                        finish();
+                                                        finish();*/
+                                                       Log.d("club","cscdc");
                                                     }
                                                 }
                                             })
@@ -115,7 +114,7 @@ public class CheckingActivity extends AppCompatActivity {
                                 Log.d(TAG, "informal");
                                 if (session.isSetup(current_user_id)) {
                                     Intent informal = new Intent(CheckingActivity.this, InformalHomeActivity.class);
-                                    //.putExtra("labourer", session.getLabourer(current_user_id));
+                                    informal.putExtra("informal", session.getUser(current_user_id));
                                     startActivity(informal);
                                     finish();
                                 } else {
@@ -132,18 +131,22 @@ public class CheckingActivity extends AppCompatActivity {
                                                         Intent intent = new Intent(CheckingActivity.this, InformalHomeActivity.class);
                                                         startActivity(intent);*/
 
+                                                        User user = documentSnapshot.toObject(User.class);
+                                                        Intent intent = new Intent(CheckingActivity.this, InformalHomeActivity.class);
+                                                        intent.putExtra("informal", user);
+                                                        startActivity(intent);
                                                     } else {
-                                                       /* Intent labourer = new Intent(CheckingActivity.this, SetupActivity.class);
-                                                        labourer.putExtra("type", "labourer");
-                                                        startActivity(labourer);
-                                                        finish();*/
+                                                        Intent user = new Intent(CheckingActivity.this, SetupActivity.class);
+                                                        user.putExtra("type", "informal");
+                                                        startActivity(user);
+                                                        finish();
                                                     }
                                                 }
                                             })
                                             .addOnFailureListener(new OnFailureListener() {
                                                 @Override
                                                 public void onFailure(@NonNull Exception e) {
-
+                                                    Log.d(TAG, "error22 : " + e.toString());
                                                 }
                                             });
                                 }
@@ -153,7 +156,7 @@ public class CheckingActivity extends AppCompatActivity {
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Log.d(TAG, "error : " + e.toString());
+                            Log.d(TAG, "error11 : " + e.toString());
                         }
                     });
         }

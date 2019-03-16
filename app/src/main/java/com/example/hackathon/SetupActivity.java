@@ -53,7 +53,7 @@ public class SetupActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private EditText name, phone, dob, skill, workExperience;
     private TextInputLayout date;
-    private EditText a1, a2, a3, state, city;
+    private EditText a1, a2, a3, state, year;
     private Boolean server = true, isChanged = false;
     private FirebaseAuth firebaseAuth;
     private Bitmap compressedImageFile;
@@ -63,6 +63,7 @@ public class SetupActivity extends AppCompatActivity {
     private TextInputLayout skillTil, workTil;
     private Toolbar toolbar;
     private SessionManager session;
+    private User user;
 
     ArrayList<String> selectedStrings = new ArrayList<>();
 
@@ -74,10 +75,12 @@ public class SetupActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.setup_tb);
         toolbar.setTitle("Profile Details");
         setSupportActionBar(toolbar);
+        user = new User();
 
         session = new SessionManager(getApplicationContext());
 
         firebaseAuth = FirebaseAuth.getInstance();
+        userId = firebaseAuth.getUid();
         storageReference = FirebaseStorage.getInstance().getReference();
         firebaseFirestore = FirebaseFirestore.getInstance();
         /*viewPager = findViewById(R.id.setup_vp);
@@ -87,17 +90,17 @@ public class SetupActivity extends AppCompatActivity {
         photo = findViewById(R.id.setup_iv_photo);
         name = findViewById(R.id.setup_details_et_name);
         phone = findViewById(R.id.setup_details_et_phone);
-        city = findViewById(R.id.setup_address_et_year);
+        year = findViewById(R.id.setup_address_et_year);
         progressBar = findViewById(R.id.setup_pb);
 
         progressBar.setVisibility(View.GONE);
 
-        if (type.equals("customer")) {
+        /*if (type.equals("customer")) {
             skillTil.setVisibility(View.GONE);
             workTil.setVisibility(View.GONE);
             skill.setVisibility(View.GONE);
             workExperience.setVisibility(View.GONE);
-        }
+        }*/
 
       /*  date.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,7 +125,7 @@ public class SetupActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                sendToFirebase();
             }
         });
 
@@ -219,11 +222,15 @@ public class SetupActivity extends AppCompatActivity {
         if (uri != null) {
             userMap.put("image", uri.toString());
             image = uri.toString();
+            user.setImage(image);
         }
 
         userMap.put("name", name.getText().toString());
+        user.setName(name.getText().toString());
         userMap.put("phone", Long.valueOf(phone.getText().toString()));
-        userMap.put("city", city.getText().toString());
+        user.setPhone(Long.valueOf(phone.getText().toString()));
+        userMap.put("year", year.getText().toString());
+        user.setYear(year.getText().toString());
         /*userMap.put("state", state.getText().toString());
         userMap.put("addressLine1", a1.getText().toString());
         userMap.put("addressLine2", a2.getText().toString());
@@ -256,9 +263,10 @@ public class SetupActivity extends AppCompatActivity {
 
                         Intent intent = new Intent(SetupActivity.this, InformalHomeActivity.class);
 
-                        //intent.putExtra("customer", customerFinal);
-                        finish();
+                        intent.putExtra("informal", user);
                         startActivity(intent);
+                        finish();
+
                         /*if (type.equals("customer")) {
                             session.saveCustomer(customerFinal);
                             Intent intent = new Intent(SetupActivity.this, CustomerHomeActivity.class);

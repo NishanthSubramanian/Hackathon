@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -30,7 +31,7 @@ import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
  * Use the {@link AllEventsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class AllEventsFragment extends Fragment {
+public class AllEventsFragment extends Fragment  {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -85,6 +86,8 @@ public class AllEventsFragment extends Fragment {
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
+        recyclerView = view.findViewById(R.id.all_events_rv);
+        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
         firebaseFirestore.collection("events").whereEqualTo("endTime",null)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {

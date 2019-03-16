@@ -1,80 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="8dp"
     tools:context=".AddEventActivity">
 
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/event_abl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/event_tb"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/white"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/name_text_input"
+        android:id="@+id/add_event_title_til"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
-        android:layout_height="59dp"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteY="-2dp">
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/event_abl">
 
         <android.support.design.widget.TextInputEditText
-            android:id="@+id/name_edit_text"
+            android:id="@+id/add_event_title_tiet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Name" />
+            android:hint="Event Title" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/desc_text_input"
+        android:id="@+id/add_event_description_til"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
-        android:layout_height="59dp"
-        app:layout_constraintTop_toBottomOf="@id/name_text_input"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteY="-2dp">
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/add_event_title_til">
 
         <android.support.design.widget.TextInputEditText
-            android:id="@+id/desc_edit_text"
+            android:id="@+id/add_event_description_tiet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Description" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/date_time"
+        android:id="@+id/add_event_date_time_til"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
-        android:layout_height="59dp"
-        app:layout_constraintTop_toBottomOf="@id/desc_text_input"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteY="-2dp">
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/add_event_description_til">
 
         <android.support.design.widget.TextInputEditText
-            android:id="@+id/date_time_edit_text"
+            android:id="@+id/add_event_date_time_tiet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Date of event" />
+            android:focusableInTouchMode="false"
+            android:hint="Date and Time" />
     </android.support.design.widget.TextInputLayout>
 
+
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/place"
+        android:id="@+id/add_event_location_til"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
-        android:layout_height="59dp"
-        app:layout_constraintTop_toBottomOf="@id/date_time"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteY="-2dp">
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/add_event_date_time_til">
 
         <android.support.design.widget.TextInputEditText
-            android:id="@+id/place_edit_text"
+            android:id="@+id/add_event_location_tiet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Location" />
+
     </android.support.design.widget.TextInputLayout>
 
     <Spinner
-        android:id="@+id/category"
+        android:id="@+id/add_event_category_spinner"
         android:layout_width="match_parent"
-        android:layout_height="59dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
         android:entries="@array/category"
-        app:layout_constraintTop_toBottomOf="@id/place"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteY="-2dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/add_event_location_til" />
+
+    <Button
+        android:id="@+id/event_add_event_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_large"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="@dimen/margin_larger"
+        android:background="@color/orange"
+        android:text="Create The Event"
+        android:textColor="@color/white"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
 </android.support.constraint.ConstraintLayout>
