@@ -1,0 +1,137 @@
+package com.example.hackathon;
+
+import android.annotation.TargetApi;
+import android.app.ActionBar;
+import android.app.Activity;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
+import android.graphics.Matrix;
+import android.graphics.drawable.Drawable;
+import android.media.ExifInterface;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+
+import static android.app.Activity.RESULT_OK;
+
+public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHolder> {
+    MessageAdapter(Context context) {
+        context = context;
+    }
+
+    private HashMap<String, Long> map;
+    private Context context;
+    private ArrayList<Message> messages;
+    public FirebaseFirestore firebaseFirestore;
+
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+        public TextView text;
+        public TextView time;
+
+        public MyViewHolder(View view) {
+            super(view);
+            text = view.findViewById(R.id.message_text);
+            time = view.findViewById(R.id.time);
+        }
+    }
+
+
+    public MessageAdapter(Context context, ArrayList<Message> messages) {
+        this.context = context;
+        this.messages = messages;
+        this.firebaseFirestore = FirebaseFirestore.getInstance();
+    }
+
+
+    @NonNull
+    @Override
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view;
+        LayoutInflater inflater = LayoutInflater.from(context);
+        view = inflater.inflate(R.layout.message_item, parent, false);
+        MyViewHolder myViewHolder = new MyViewHolder(view);
+
+        return myViewHolder;
+    }
+
+    @Override
+    public void onBindViewHolder(final MyViewHolder holder, final int position) {
+
+        final Message item = messages.get(position);
+        holder.text.setText(item.getText());
+        holder.time.setText(item.getTime().toString());
+
+    }
+
+    @Override
+    public int getItemCount() {
+
+        return messages.size();
+
+    }
+
+    public void added(Message c) {
+        Log.d("added @ adapter", messages.size() + "s");
+        messages.add(c);
+        notifyItemInserted(messages.indexOf(c));
+    }
+
+    public void remove(Message c) {
+
+        int pos = messages.indexOf(c);
+        messages.remove(pos);
+        notifyItemRemoved(pos);
+        notifyItemRangeChanged(pos, messages.size());
+    }
+
+    public ArrayList<Message> getMessages() {
+        return messages;
+    }
+
+    public ArrayList<String> getMessageText() {
+        ArrayList<String> s = new ArrayList<>();
+        for (Message item : messages) {
+            s.add(item.getText());
+        }
+        return s;
+    }
+
+    public void setMap(HashMap<String, Long> map) {
+        this.map = map;
+    }
+}
+
