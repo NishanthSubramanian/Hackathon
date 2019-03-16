@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.hackathon">
+    package="com.example.hackathon"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <application
         android:allowBackup="true"
@@ -11,8 +9,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        tools:ignore="AllowBackup,GoogleAppIndexingWarning">
+        android:theme="@style/AppTheme">
         <activity android:name=".SetupActivity"></activity>
         <activity
             android:name=".FormalHomeActivity"
@@ -23,11 +20,10 @@
         <activity android:name=".RegisterActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".CheckingActivity" />
-        <activity android:name=".MainActivity"></activity>
         <activity android:name=".AddEventActivity">
         </activity>
         <activity android:name=".ProfileActivity" />
-        <activity android:name=".ChatActivity">
+        <activity android:name=".ChatActivity"></activity>
         <activity android:name=".ExploreBaseActivity"></activity>
         <activity android:name=".ExploreCategoriesActivity"></activity>
         <activity android:name=".MainActivity">
