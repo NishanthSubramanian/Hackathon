@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">Hackathon</string>
+    <string-array name="category">
+        <item>Sports</item>
+        <item>Tech</item>
+        <item>Literature</item>
+    </string-array>
     <string name="title_activity_informal_home">InformalHomeActivity</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
