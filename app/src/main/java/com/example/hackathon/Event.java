@@ -10,6 +10,24 @@ public class Event {
     private String name;
     private String description;
     private ArrayList<User> Participants;
+    private String place;
+    private String category;
+
+    public String getPlace() {
+        return place;
+    }
+
+    public void setPlace(String place) {
+        this.place = place;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
 
     public Timestamp getStartDate() {
         return startDate;
