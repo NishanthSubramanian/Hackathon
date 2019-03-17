@@ -11,6 +11,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -143,6 +144,10 @@ GoingEventsActivity.OnFragmentInteractionListener,PastEventsActivity.OnFragmentI
                 case R.id.navigation_home:
                     return true;
                 case R.id.navigation_explore:
+                    Intent i=new Intent(getApplicationContext(),ExploreBaseActivity.class);
+                    i.putExtra("informal",user);
+                    Log.d("HEY",user.toString());
+                    startActivity(i);
                     return true;
                 case R.id.navigation_chats:
                     return true;

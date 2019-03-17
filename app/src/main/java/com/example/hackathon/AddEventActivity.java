@@ -145,6 +145,7 @@ public class AddEventActivity extends AppCompatActivity {
         map.put("endDate",null);
         map.put("creation",event.getCreationTime());
         map.put("isFormal",false);
+        map.put("eventId",event.getEventId());
         //map.put("images", pictures);
         //map.put("labourResponses", new HashMap<String, Long>());
       /*  map.put("addressLine1",services.getAddressLine1());
