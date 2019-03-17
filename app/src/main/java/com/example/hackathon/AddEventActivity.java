@@ -18,8 +18,11 @@ import android.widget.TimePicker;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ServerValue;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -34,6 +37,7 @@ public class AddEventActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore firebaseFirestore;
     private String st = "";
+    private User  user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +58,8 @@ public class AddEventActivity extends AppCompatActivity {
 
             }
         });
+
+        user = (User) getIntent().getExtras().get("informal");
 
         dateTime = findViewById(R.id.add_event_date_time_til);
         title = findViewById(R.id.add_event_title_til);
@@ -111,6 +117,10 @@ public class AddEventActivity extends AppCompatActivity {
                     event.setTitle(title_string);
                     event.setStartDate(time);
                     event.setEventId(firebaseAuth.getUid()+"+"+String.valueOf(System.currentTimeMillis()));
+                    event.setCreationTime(System.currentTimeMillis());
+                    event.setFormal(false);
+                    event.setHostImage(user.getImage());
+                    event.setHostName(user.getName());
                     sendToFirebase();
                 }
             }
@@ -130,6 +140,9 @@ public class AddEventActivity extends AppCompatActivity {
         map.put("startDate", event.getStartDate());
         map.put("location",event.getLocation());
         map.put("title",event.getTitle());
+        map.put("hostImage",event.getHostImage());
+        map.put("hostName",event.getHostName());
+
         //map.put("images", pictures);
         //map.put("labourResponses", new HashMap<String, Long>());
       /*  map.put("addressLine1",services.getAddressLine1());
