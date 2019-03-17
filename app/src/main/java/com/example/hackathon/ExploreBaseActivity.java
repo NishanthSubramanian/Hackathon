@@ -43,6 +43,8 @@ public class ExploreBaseActivity extends AppCompatActivity implements AllEventsF
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
+                    Intent i= new Intent(getApplicationContext(),InformalHomeActivity.class);
+                    finish();
                     return true;
                 case R.id.navigation_explore:
                     return true;
