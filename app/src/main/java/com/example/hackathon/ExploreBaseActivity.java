@@ -35,7 +35,6 @@ public class ExploreBaseActivity extends AppCompatActivity implements AllEventsF
     private SearchView searchView;
     private LinearLayout ll;
 
-    User user = (User)getIntent().getExtras().getSerializable("informal");
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -62,6 +61,7 @@ public class ExploreBaseActivity extends AppCompatActivity implements AllEventsF
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_explore_base);
         CardView informalCard= findViewById(R.id.informalCard);
+        User user = (User)getIntent().getExtras().get("informal");
         CardView formalCard= findViewById(R.id.formalCard);
         searchView=findViewById(R.id.explore_base_sv);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottom_nav_view);

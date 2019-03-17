@@ -24,28 +24,7 @@ import java.util.ArrayList;
 
 public class ExploreFinalActivity extends AppCompatActivity {
 
-    User user = (User)getIntent().getExtras().getSerializable("informal");
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.navigation_home:
-                    Intent i= new Intent(getApplicationContext(),InformalHomeActivity.class);
-                    i.putExtra("informal",user);
-                    startActivity(i);
-                    finish();
-                    return true;
-                case R.id.navigation_explore:
-                    return true;
-                case R.id.navigation_chats:
-                    return true;
-            }
-            return false;
-        }
-    };
 
     @Override
     public void onBackPressed(){
@@ -58,8 +37,28 @@ public class ExploreFinalActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_explore_final);
+        User user = (User)getIntent().getExtras().get("informal");
 
+        BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+                = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.navigation_home:
+                        Intent i= new Intent(getApplicationContext(),InformalHomeActivity.class);
+                        i.putExtra("informal",user);
+                        startActivity(i);
+                        finish();
+                        return true;
+                    case R.id.navigation_explore:
+                        return true;
+                    case R.id.navigation_chats:
+                        return true;
+                }
+                return false;
+            }
+        };
 
 
         Intent i= getIntent();

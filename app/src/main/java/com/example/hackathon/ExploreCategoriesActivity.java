@@ -30,7 +30,7 @@ public class ExploreCategoriesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        User user = (User)getIntent().getExtras().getSerializable("informal");
+        User user = (User)getIntent().getExtras().get("informal");
         Intent i = getIntent();
         String type = i.getStringExtra("type");
         if (type.equals("I")) {
