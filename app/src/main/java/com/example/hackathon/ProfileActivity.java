@@ -24,6 +24,10 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+        firebaseAuth =  FirebaseAuth.getInstance();
+        firebaseFirestore = FirebaseFirestore.getInstance();
+
         user = (User) getIntent().getExtras().getSerializable("informal");
         Log.d("PRO",user.toString());
         tvProfileEmail = findViewById(R.id.tvProfileEmail);
@@ -34,15 +38,15 @@ public class ProfileActivity extends AppCompatActivity {
         tvProfileContact.setText(user.getPhone().toString());
         year.setText(user.getYear());
         btnEditDetails = findViewById(R.id.btnEditDetails);
-//        btnEditDetails.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(this, SetupActivity.class);
-//                intent.putExtra("from","profile");
-//                intent.putExtra("user",user.toString());
-//                startActivity(intent);
-//            }
-//        });
+        btnEditDetails.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProfileActivity.this, SetupActivity.class);
+                intent.putExtra("from","profile");
+                intent.putExtra("user",user);
+                startActivity(intent);
+            }
+        });
 
     }
 

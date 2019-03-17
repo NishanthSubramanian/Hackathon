@@ -22,12 +22,14 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -75,8 +77,6 @@ public class SetupActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.setup_tb);
         toolbar.setTitle("Profile Details");
         setSupportActionBar(toolbar);
-        user = new User();
-
         session = new SessionManager(getApplicationContext());
 
         firebaseAuth = FirebaseAuth.getInstance();
@@ -94,6 +94,19 @@ public class SetupActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.setup_pb);
 
         progressBar.setVisibility(View.GONE);
+
+        user = new User();
+        String from = getIntent().getExtras().get("from").toString();
+        if(from!=null && from.equals("profile")){
+                user = (User)getIntent().getExtras().getSerializable("user");
+                name.setText(user.getName());
+                if(!user.getImage().equals("null"))
+                    Glide.with(getApplicationContext()).load(user.getImage()).into(photo);
+                phone.setText(user.getPhone().toString());
+                year.setText(user.getYear());
+        }
+
+
 
         /*if (type.equals("customer")) {
             skillTil.setVisibility(View.GONE);
@@ -255,7 +268,7 @@ public class SetupActivity extends AppCompatActivity {
 
         userMap.put("services", h);*/
 
-        firebaseFirestore.collection("informal").document(userId).set(userMap)
+        firebaseFirestore.collection("informal").document(userId).set(userMap,SetOptions.merge()    )
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {

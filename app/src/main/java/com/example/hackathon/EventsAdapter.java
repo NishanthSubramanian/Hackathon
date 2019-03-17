@@ -80,7 +80,7 @@ class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.MyViewHolder> {
 
     @Override
     public void onBindViewHolder(final EventsAdapter.MyViewHolder holder, final int position) {
-        Event event = events.get(position);
+        final Event event = events.get(position);
         Log.d("event",event.toString());
         holder.title.setText(event.getTitle());
         if(!event.getHostImage().equals("null")) {

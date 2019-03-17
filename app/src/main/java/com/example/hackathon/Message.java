@@ -9,7 +9,7 @@ import java.text.SimpleDateFormat;
 
 public class Message {
     private String text;
-    private Timestamp time;
+    private Long time;
     private String timeInString;
     private String id, senderUID;
 
@@ -32,11 +32,11 @@ public class Message {
         this.text = text;
     }
 
-    public Timestamp getTime() {
+    public Long getTime() {
         return time;
     }
 
-    public void setTime(Timestamp time) {
+    public void setTime(Long time) {
         this.time = time;
     }
 
