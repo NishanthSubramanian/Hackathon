@@ -1,39 +1,32 @@
 package com.example.hackathon;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
-public class Event {
-    private Timestamp startDate;
+public class Event implements Serializable {
+    private String startDate;
     private Timestamp endDate;
+    private String eventId;
     private boolean isFormal;
-    private String name;
+    private String title;
     private String description;
-    private ArrayList<User> Participants;
-    private String place;
+    private ArrayList<String> participantsId;
+    private ArrayList<User> participants;
+    private String location;
     private String category;
+    private Long creationTime;
+    private String senderUID;
+    private String hostName, hostImage;
 
-    public String getPlace() {
-        return place;
+    public Event() {
     }
 
-    public void setPlace(String place) {
-        this.place = place;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public Timestamp getStartDate() {
+    public String getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Timestamp startDate) {
+    public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
 
@@ -45,6 +38,14 @@ public class Event {
         this.endDate = endDate;
     }
 
+    public String getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(String eventId) {
+        this.eventId = eventId;
+    }
+
     public boolean isFormal() {
         return isFormal;
     }
@@ -53,12 +54,12 @@ public class Event {
         isFormal = formal;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getDescription() {
@@ -69,11 +70,67 @@ public class Event {
         this.description = description;
     }
 
+    public ArrayList<String> getParticipantsId() {
+        return participantsId;
+    }
+
+    public void setParticipantsId(ArrayList<String> participantsId) {
+        this.participantsId = participantsId;
+    }
+
     public ArrayList<User> getParticipants() {
-        return Participants;
+        return participants;
     }
 
     public void setParticipants(ArrayList<User> participants) {
-        Participants = participants;
+        this.participants = participants;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public Long getCreationTime() {
+        return creationTime;
+    }
+
+    public void setCreationTime(Long creationTime) {
+        this.creationTime = creationTime;
+    }
+
+    public String getSenderUID() {
+        return senderUID;
+    }
+
+    public void setSenderUID(String senderUID) {
+        this.senderUID = senderUID;
+    }
+
+    public String getHostName() {
+        return hostName;
+    }
+
+    public void setHostName(String hostName) {
+        this.hostName = hostName;
+    }
+
+    public String getHostImage() {
+        return hostImage;
+    }
+
+    public void setHostImage(String hostImage) {
+        this.hostImage = hostImage;
     }
 }

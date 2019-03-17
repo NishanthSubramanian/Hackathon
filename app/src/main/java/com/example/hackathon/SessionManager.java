@@ -50,6 +50,34 @@ public class SessionManager {
         gson = new Gson();
     }
 
+    public void saveEvent(Event event){
+
+        String json = gson.toJson(event); // myObject - instance of MyObject
+        editor.putString(event.getEventId(),json);
+        editor.commit();
+    }
+
+    public Event getEvent(String eventId){
+        String json = pref.getString(eventId, "");
+        Event event = gson.fromJson(json, Event.class);
+        return event;
+    }
+
+    public void saveUser(User user){
+
+        String json = gson.toJson(user); // myObject - instance of MyObject
+        editor.putString(user.getId(),json);
+        editor.commit();
+    }
+
+    public User getUser(String userId){
+        String json = pref.getString(userId, "");
+        User user = gson.fromJson(json, User.class);
+        return user;
+    }
+
+
+
     /*public void saveServices(ServicesFinal servicesFinal){
 
         String json = gson.toJson(servicesFinal); // myObject - instance of MyObject
@@ -119,9 +147,12 @@ public class SessionManager {
 
     public Boolean isSetup(String s){
 
-        String name = pref.getString(s,null);
-        Log.d("name",name+"!");
-        if(name == null){
+        String json = pref.getString(s, "");
+        User user = gson.fromJson(json, User.class);
+
+        //String name = pref.getString(s,null);
+        //Log.d("name",name+"!");
+        if(user == null || user.getName()== null){
             return false;
         }
         return true;

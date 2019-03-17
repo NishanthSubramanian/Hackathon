@@ -49,9 +49,7 @@ public class CheckingActivity extends AppCompatActivity {
         if (currentUser == null) {
             Log.d(TAG, "send to login : Checking");
             sendToLogin();
-        } /*else if (session.isLoggedIn()) {
-
-        } */else {
+        } else {
             current_user_id = mAuth.getCurrentUser().getUid();
             Log.d(TAG, current_user_id);
 
@@ -66,32 +64,33 @@ public class CheckingActivity extends AppCompatActivity {
                                 Log.d(TAG, "club");
 
                                 if (session.isSetup(current_user_id)) {
-                                    /*Log.d("isSetup", "customer");
-                                    Intent customer = new Intent(CheckingActivity.this, CustomerHomeActivity.class);
-                                    customer.putExtra("customer", session.getCustomer(current_user_id));
-                                    startActivity(customer);
-                                    finish();*/
+                                    Log.d("isSetup", "club");
+                                    Intent formal = new Intent(CheckingActivity.this, FormalHomeActivity.class);
+                                    formal.putExtra("formal", session.getUser(current_user_id));
+                                    startActivity(formal);
+                                    finish();
                                 } else {
-                                    firebaseFirestore.collection("customer").document(current_user_id).get()
+                                    firebaseFirestore.collection("formal").document(current_user_id).get()
                                             .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                                 @Override
                                                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                                                     if (documentSnapshot.exists()) {
                                                         /*CustomerFinal customer = documentSnapshot.toObject(CustomerFinal.class);
-                                                        *//*session.createProfileCustomer(customer.getName(),customer.getImage(),customer.getDob(),customer.getCity()
+                                                        session.createProfileCustomer(customer.getName(),customer.getImage(),customer.getDob(),customer.getCity()
                                                         ,customer.getState(),customer.getPhone(),customer.getAddressLine1(),customer.getAddressLine2()
-                                                                ,customer.getAddressLine3());*//*
-                                                        session.saveCustomer(customer);
-
-                                                        Intent intent = new Intent(CheckingActivity.this, CustomerHomeActivity.class);
-                                                        intent.putExtra("customer", customer);
-                                                        startActivity(intent);*/
+                                                                ,customer.getAddressLine3());
+                                                        session.saveCustomer(customer);*/
+                                                        User user = documentSnapshot.toObject(User.class);
+                                                        Intent intent = new Intent(CheckingActivity.this, FormalHomeActivity.class);
+                                                        intent.putExtra("formal", user);
+                                                        startActivity(intent);
 
                                                     } else {
                                                        /* Intent customer = new Intent(CheckingActivity.this, SetupActivity.class);
                                                         customer.putExtra("type", "customer");
                                                         startActivity(customer);
                                                         finish();*/
+                                                       Log.d("club","cscdc");
                                                     }
                                                 }
                                             })
@@ -111,15 +110,15 @@ public class CheckingActivity extends AppCompatActivity {
                                 }*/
 
                             } else {
-                                session.setType("labourer");
-                                Log.d(TAG, "labourer");
+                                session.setType("informal");
+                                Log.d(TAG, "informal");
                                 if (session.isSetup(current_user_id)) {
-                                   /* Intent labourer = new Intent(CheckingActivity.this, LabourerMainActivity.class);
-                                    labourer.putExtra("labourer", session.getLabourer(current_user_id));
-                                    startActivity(labourer);
-                                    finish();*/
+                                    Intent informal = new Intent(CheckingActivity.this, InformalHomeActivity.class);
+                                    informal.putExtra("informal", session.getUser(current_user_id));
+                                    startActivity(informal);
+                                    finish();
                                 } else {
-                                    firebaseFirestore.collection("labourer").document(current_user_id).get()
+                                    firebaseFirestore.collection("informal").document(current_user_id).get()
                                             .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                                 @Override
                                                 public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -129,21 +128,25 @@ public class CheckingActivity extends AppCompatActivity {
                                                                 , labourer.getState(), labourer.getPhone(), labourer.getAddressLine1(), labourer.getAddressLine2()
                                                                 , labourer.getAddressLine3(), labourer.getSkill(), 9L);
 
-                                                        Intent intent = new Intent(CheckingActivity.this, LabourerHomeActivity.class);
+                                                        Intent intent = new Intent(CheckingActivity.this, InformalHomeActivity.class);
                                                         startActivity(intent);*/
 
+                                                        User user = documentSnapshot.toObject(User.class);
+                                                        Intent intent = new Intent(CheckingActivity.this, InformalHomeActivity.class);
+                                                        intent.putExtra("informal", user);
+                                                        startActivity(intent);
                                                     } else {
-                                                       /* Intent labourer = new Intent(CheckingActivity.this, SetupActivity.class);
-                                                        labourer.putExtra("type", "labourer");
-                                                        startActivity(labourer);
-                                                        finish();*/
+                                                        Intent user = new Intent(CheckingActivity.this, SetupActivity.class);
+                                                        user.putExtra("type", "informal");
+                                                        startActivity(user);
+                                                        finish();
                                                     }
                                                 }
                                             })
                                             .addOnFailureListener(new OnFailureListener() {
                                                 @Override
                                                 public void onFailure(@NonNull Exception e) {
-
+                                                    Log.d(TAG, "error22 : " + e.toString());
                                                 }
                                             });
                                 }
@@ -153,7 +156,7 @@ public class CheckingActivity extends AppCompatActivity {
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Log.d(TAG, "error : " + e.toString());
+                            Log.d(TAG, "error11 : " + e.toString());
                         }
                     });
         }
