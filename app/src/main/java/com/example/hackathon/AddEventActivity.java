@@ -116,8 +116,8 @@ public class AddEventActivity extends AppCompatActivity {
                     event.setLocation(location);
                     event.setTitle(title_string);
                     event.setStartDate(time);
-                    event.setEventId(firebaseAuth.getUid()+"+"+String.valueOf(System.currentTimeMillis()));
                     event.setCreationTime(System.currentTimeMillis());
+                    event.setEventId(firebaseAuth.getUid()+"+"+String.valueOf(event.getCreationTime()));
                     event.setFormal(false);
                     event.setHostImage(user.getImage());
                     event.setHostName(user.getName());
@@ -142,7 +142,9 @@ public class AddEventActivity extends AppCompatActivity {
         map.put("title",event.getTitle());
         map.put("hostImage",event.getHostImage());
         map.put("hostName",event.getHostName());
-
+        map.put("endDate",null);
+        map.put("creation",event.getCreationTime());
+        map.put("isFormal",false);
         //map.put("images", pictures);
         //map.put("labourResponses", new HashMap<String, Long>());
       /*  map.put("addressLine1",services.getAddressLine1());
