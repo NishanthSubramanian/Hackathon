@@ -19,10 +19,12 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,27 +57,56 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
 
     private HashMap<String, Long> map;
     private Context context;
+    private String uid;
     private ArrayList<Message> messages;
     public FirebaseFirestore firebaseFirestore;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView text;
         public TextView time;
-
+        public TextView name;
+        private CardView cardview;
+        public TextView text2;
+        public TextView time2;
+        public TextView name2;
+        private CardView cardview2;
         public MyViewHolder(View view) {
             super(view);
             text = view.findViewById(R.id.message_text);
             time = view.findViewById(R.id.time);
+            name = view.findViewById(R.id.sender);
+            cardview = view.findViewById(R.id.card_view);
+            text2 = view.findViewById(R.id.message_text2);
+            time2 = view.findViewById(R.id.time2);
+            name2 = view.findViewById(R.id.sender2);
+            cardview2 = view.findViewById(R.id.card_view2);
         }
+
+
     }
 
+//    public class MyViewHoilder2 extends RecyclerView.ViewHolder {
+//        public MyViewHoilder2(View view){
+//            super(view);
+//        }
+//
+//    }
 
-    public MessageAdapter(Context context, ArrayList<Message> messages) {
+
+    public MessageAdapter(Context context, ArrayList<Message> messages, String uid) {
         this.context = context;
         this.messages = messages;
+        this.uid = uid;
         this.firebaseFirestore = FirebaseFirestore.getInstance();
     }
 
+//    @Override
+//    public int getItemViewType(int position) {
+//        if(getMessages().get(position).getUid().equals("xcsd")){
+//            return 0;
+//        }
+//        return  1;
+//    }
 
     @NonNull
     @Override
@@ -84,7 +115,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
         LayoutInflater inflater = LayoutInflater.from(context);
         view = inflater.inflate(R.layout.message_item, parent, false);
         MyViewHolder myViewHolder = new MyViewHolder(view);
-
         return myViewHolder;
     }
 
@@ -93,8 +123,23 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
 
         final Message item = messages.get(position);
         holder.text.setText(item.getText());
-        holder.time.setText(item.getTime().toString());
+        holder.time.setText(item.getTimeInString());
+        holder.name.setText(item.getId());
+        Log.d("mes",item.toString());
+        holder.cardview.setVisibility(View.VISIBLE);
+        holder.cardview2.setVisibility(View.VISIBLE);
+        holder.text2.setText(item.getText());
+        holder.time2.setText(item.getTimeInString());
+        holder.name2.setText(item.getId());
 
+        if(getMessages().get(position).getSenderUID().equals(uid)){
+            holder.cardview2.setVisibility(View.GONE);
+            Log.d("HERE","asdkjfhajlsdhflk");
+        }
+        else{
+            holder.cardview.setVisibility(View.GONE);
+            Log.d("HERE2","asdkjfhajlsdhflk");
+        }
     }
 
     @Override
