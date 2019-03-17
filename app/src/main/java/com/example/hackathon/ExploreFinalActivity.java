@@ -2,11 +2,14 @@ package com.example.hackathon;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.SearchView;
 
@@ -21,20 +24,52 @@ import java.util.ArrayList;
 
 public class ExploreFinalActivity extends AppCompatActivity {
 
+    User user = (User)getIntent().getExtras().getSerializable("informal");
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+    BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.navigation_home:
+                    Intent i= new Intent(getApplicationContext(),InformalHomeActivity.class);
+                    i.putExtra("informal",user);
+                    startActivity(i);
+                    finish();
+                    return true;
+                case R.id.navigation_explore:
+                    return true;
+                case R.id.navigation_chats:
+                    return true;
+            }
+            return false;
+        }
+    };
+
+    @Override
+    public void onBackPressed(){
+        startActivity( new Intent(this, ExploreCategoriesActivity.class) );
+        finish();
+    }
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_explore_final);
+
+
+
+
         Intent i= getIntent();
         String category=i.getStringExtra("category");
         ArrayList<Event>E=new ArrayList<Event>();
-        SearchResultsAdapter SRA;
+        SearchResultsAdapter SRAF;
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.explore_final_rv);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        SRA=new SearchResultsAdapter(getApplicationContext(),E);
-        recyclerView.setAdapter(SRA);
+        SRAF=new SearchResultsAdapter(getApplicationContext(),E,user);
+        recyclerView.setAdapter(SRAF);
         recyclerView.setHasFixedSize(false);
         CollectionReference eventRef = db.collection("events");
         eventRef.whereEqualTo("category", category).addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -48,10 +83,11 @@ public class ExploreFinalActivity extends AppCompatActivity {
                 for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
                     Event event=doc.toObject(Event.class);
                     Log.d("HEY", event.toString());
-                    SRA.added(event);
+                    SRAF.added(event);
                 }
             }
         });
+
         RecyclerView rl=findViewById(R.id.explore_final_rv);
         SearchView searchView=findViewById(R.id.explore_final_sv);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -62,8 +98,8 @@ public class ExploreFinalActivity extends AppCompatActivity {
                     rl.setVisibility(View.GONE);
                 SearchResultsAdapter SRA;
                 final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.explore_final_search_result_rv);
-                recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                SRA=new SearchResultsAdapter(getApplicationContext(),E);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
+                SRA=new SearchResultsAdapter(getApplicationContext(),E,user);
                 recyclerView.setAdapter(SRA);
                 recyclerView.setHasFixedSize(false);
                 CollectionReference eventRef = db.collection("events");

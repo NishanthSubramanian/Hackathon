@@ -35,6 +35,8 @@ public class ExploreBaseActivity extends AppCompatActivity implements AllEventsF
     private SearchView searchView;
     private LinearLayout ll;
 
+    User user = (User)getIntent().getExtras().getSerializable("informal");
+
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -68,7 +70,7 @@ public class ExploreBaseActivity extends AppCompatActivity implements AllEventsF
         SearchResultsAdapter SRA;
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.explore_base_rv);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        SRA=new SearchResultsAdapter(this,E);
+        SRA=new SearchResultsAdapter(this,E,user);
         recyclerView.setAdapter(SRA);
         recyclerView.setHasFixedSize(false);
 
@@ -127,6 +129,9 @@ public class ExploreBaseActivity extends AppCompatActivity implements AllEventsF
             public void onClick(View v) {
                 Intent i= new Intent(getApplicationContext(),ExploreCategoriesActivity.class);
                 i.putExtra("type","I");
+                Intent j=getIntent();
+                User user = (User)getIntent().getExtras().getSerializable("informal");
+                i.putExtra("informal",user);
                 startActivity(i);
             }
         });
@@ -136,6 +141,9 @@ public class ExploreBaseActivity extends AppCompatActivity implements AllEventsF
             public void onClick(View v) {
                 Intent i= new Intent(getApplicationContext(),ExploreCategoriesActivity.class);
                 i.putExtra("type","F");
+                Intent j=getIntent();
+                User user = (User)getIntent().getExtras().getSerializable("informal");
+                i.putExtra("informal",user);
                 startActivity(i);
             }
         });

@@ -143,6 +143,7 @@ GoingEventsActivity.OnFragmentInteractionListener,PastEventsActivity.OnFragmentI
                     return true;
                 case R.id.navigation_explore:
                     Intent i=new Intent(getApplicationContext(),ExploreBaseActivity.class);
+                    i.putExtra("informal",user);
                     startActivity(i);
                     return true;
                 case R.id.navigation_chats:

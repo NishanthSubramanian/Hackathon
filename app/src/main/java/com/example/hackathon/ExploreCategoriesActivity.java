@@ -30,6 +30,7 @@ public class ExploreCategoriesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        User user = (User)getIntent().getExtras().getSerializable("informal");
         Intent i = getIntent();
         String type = i.getStringExtra("type");
         if (type.equals("I")) {
@@ -60,7 +61,7 @@ public class ExploreCategoriesActivity extends AppCompatActivity {
                     SearchResultsAdapter SRA;
                     final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.informal_categories_search_result_rv);
                     recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                    SRA=new SearchResultsAdapter(getApplicationContext(),E);
+                    SRA=new SearchResultsAdapter(getApplicationContext(),E,user);
                     recyclerView.setAdapter(SRA);
                     recyclerView.setHasFixedSize(false);
                     CollectionReference eventRef = db.collection("events");
@@ -134,7 +135,7 @@ public class ExploreCategoriesActivity extends AppCompatActivity {
                     SearchResultsAdapter SRA;
                     final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.formal_categories_search_result_rv);
                     recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                    SRA=new SearchResultsAdapter(getApplicationContext(),E);
+                    SRA=new SearchResultsAdapter(getApplicationContext(),E,user);
                     recyclerView.setAdapter(SRA);
                     recyclerView.setHasFixedSize(false);
                     CollectionReference eventRef = db.collection("events");
