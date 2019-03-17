@@ -56,10 +56,15 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
     }
 
     private HashMap<String, Long> map;
+    private HashMap<String,User> users;
     private Context context;
     private String uid;
     private ArrayList<Message> messages;
     public FirebaseFirestore firebaseFirestore;
+
+    public HashMap<String, User> getUsers(){
+        return  this.users;
+    }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView text;
@@ -92,12 +97,20 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
 //
 //    }
 
+    public void addedUser(User user){
+        Log.d("addedxc @ adapter", users.size() + "s");
+        //messages.add(c);
+        users.put(user.getId(),user);
+        //notifyItemInserted(messages.indexOf(c));
+    }
 
-    public MessageAdapter(Context context, ArrayList<Message> messages, String uid) {
+
+    public MessageAdapter(Context context, ArrayList<Message> messages, String uid, HashMap<String,User> map) {
         this.context = context;
         this.messages = messages;
         this.uid = uid;
         this.firebaseFirestore = FirebaseFirestore.getInstance();
+        this.users = map;
     }
 
 //    @Override
@@ -124,7 +137,10 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
         final Message item = messages.get(position);
         holder.text.setText(item.getText());
         holder.time.setText(item.getTimeInString());
-        holder.name.setText(item.getId());
+
+        holder.name.setText(users.get(item.getSenderUID()).getName());
+        holder.time.setText(item.getTimeInString()+"!");
+        //holder.name.setText(item.getId());
         Log.d("mes",item.toString());
         holder.cardview.setVisibility(View.VISIBLE);
         holder.cardview2.setVisibility(View.VISIBLE);

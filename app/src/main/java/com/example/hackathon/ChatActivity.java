@@ -53,7 +53,7 @@ public class ChatActivity extends AppCompatActivity {
 
 
         event  = (Event)getIntent().getExtras().get("event");
-        messageAdapter = new MessageAdapter(getApplicationContext(), new ArrayList<Message>(), firebaseAuth.getUid());
+        messageAdapter = new MessageAdapter(getApplicationContext(), new ArrayList<Message>(), firebaseAuth.getUid(), userMap);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setAdapter(messageAdapter);
         //PRAJWAL PLEASE GET EVENT ID
@@ -67,19 +67,24 @@ public class ChatActivity extends AppCompatActivity {
                     public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
                         for (DocumentChange doc : queryDocumentSnapshots.getDocumentChanges()) {
                             if (doc.getType() == DocumentChange.Type.ADDED) {
-                                Message message = doc.getDocument().toObject(Message.class);
+                                final Message message = doc.getDocument().toObject(Message.class);
                                 /*message.setText(doc.getDocument().get("text") + "");
                                 message.setId(doc.getDocument().getId());*/
                                 message.setId(doc.getDocument().getId());
                                 message.compute();
-                                if(!userMap.containsKey(message.getSenderUID())){
+                                Log.d("query",message.toString());
+                                if(!messageAdapter.getUsers().containsKey(message.getSenderUID())){
                                     firebaseFirestore.collection("informal")
                                             .document(message.getSenderUID()).get()
                                             .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                         @Override
                                         public void onSuccess(DocumentSnapshot documentSnapshot) {
                                             User user = documentSnapshot.toObject(User.class);
+                                            user.setId(documentSnapshot.getId());
+                                            messageAdapter.addedUser(user);
                                             userMap.put(documentSnapshot.getId(),user);
+                                            messageAdapter.added(message);
+
                                         }
                                     }).addOnFailureListener(new OnFailureListener() {
                                         @Override
@@ -87,9 +92,10 @@ public class ChatActivity extends AppCompatActivity {
 
                                         }
                                     });
+                                }else {
+                                    Log.d("ADSd", message.toString());
+                                    messageAdapter.added(message);
                                 }
-                                Log.d("ADSd", message.toString());
-                                messageAdapter.added(message);
                             }
                         }
                     }
@@ -102,6 +108,7 @@ public class ChatActivity extends AppCompatActivity {
                 HashMap<String, Object> map = new HashMap<>();
                 map.put("text", msg);
                 map.put("time", System.currentTimeMillis());
+                edittext_chatbox.setText("");
                 //map.put("uid",firebaseAuth.getUid());
                 firebaseFirestore.collection("events").document(eventId).collection("messages")
                         .document(String.valueOf(map.get("time")) + "+" + firebaseAuth.getUid())
