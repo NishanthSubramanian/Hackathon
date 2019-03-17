@@ -53,6 +53,7 @@ class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.MyViewHolder> {
             title = view.findViewById(R.id.event_title);
             time = view.findViewById(R.id.event_time);
             isFavourite = view.findViewById(R.id.event_fav_civ);
+            constraintLayout = view.findViewById(R.id.item_service_cl);
         }
     }
 
@@ -88,7 +89,19 @@ class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.MyViewHolder> {
         holder.time.setText(event.getStartDate());
         holder.name.setText(event.getHostName());
 
+        holder.constraintLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context,EventActivity.class);
+                intent.putExtra("event",event);
+                context.startActivity(intent);
+
+            }
+        });
+
         if(type == 0){
+
+
             if(user.getSaved().contains(event.getEventId())){
                 holder.isFavourite.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_black_24dp));
             }else{
