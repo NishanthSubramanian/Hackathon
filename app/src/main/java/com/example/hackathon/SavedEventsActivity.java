@@ -3,10 +3,30 @@ package com.example.hackathon;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+
+import javax.annotation.Nullable;
+
+import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 
 
 /**
@@ -54,17 +74,138 @@ public class SavedEventsActivity extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            user = (User) bundle.getSerializable("informal");
+        }
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
+    private FirebaseFirestore firebaseFirestore;
+    private FirebaseAuth firebaseAuth;
+    private RecyclerView recyclerView;
+    private EventsAdapter eventsAdapter;
+    private User user;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_saved_events, container, false);
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseFirestore = FirebaseFirestore.getInstance();
+        recyclerView = view.findViewById(R.id.saved_events_rv);
+        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        eventsAdapter = new EventsAdapter(view.getContext(), new ArrayList<Event>(), user, 2);
+        Log.d("user", user.toString() + "saved");
+        recyclerView.setAdapter(eventsAdapter);
+
+        for (String s : user.getSaved()) {
+
+            firebaseFirestore.collection("events").document(s)
+                    .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    Event event = documentSnapshot.toObject(Event.class);
+                    event.setEventId(documentSnapshot.getId());
+                    eventsAdapter.added(event);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+
+                }
+            });
+        }
+
+        firebaseFirestore.collection("informal").document(firebaseAuth.getUid())
+                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                        if (e != null) {
+                            Log.w(TAG, "Listen failed.", e);
+                            return;
+                        }
+                        User user = documentSnapshot.toObject(User.class);
+
+                        for (String s : user.getSaved()) {
+                            if (!eventsAdapter.getItems().contains(s)) {
+                                firebaseFirestore.collection("events").document(s)
+                                        .get()
+                                        .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                            @Override
+                                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                                Event event = documentSnapshot.toObject(Event.class);
+                                                event.setEventId(documentSnapshot.getId());
+                                                eventsAdapter.added(event);
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+
+                                            }
+                                        });
+                            }
+                        }
+
+                        /*for (String s : eventsAdapter.getItems()) {
+                            if (!user.getSaved().contains(s)) {
+                                eventsAdapter.removed(s);
+                            }
+                        }*/
+
+                        /* if(eventsAdapter.getItems().contains(event.getEventId()))*/
+                        Log.d("saved", documentSnapshot.getMetadata().toString() + "" + documentSnapshot.getData());
+                    }
+                });
+        /*firebaseFirestore.collection("events").whereEqualTo("endDate",null)*//*.orderBy("creation", Query.Direction.ASCENDING)*//*
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+
+                        if (e != null) {
+                            Log.w(TAG, "Listen failed.", e);
+                            return;
+                        }
+                        Log.d("sccdcsc",queryDocumentSnapshots.toString());
+                        for (DocumentChange doc : queryDocumentSnapshots.getDocumentChanges()) {
+                            switch (doc.getType()) {
+                                case ADDED:
+                                    Event event = doc.getDocument().toObject(Event.class);
+                                    event.setEventId(doc.getDocument().getId());
+                                    //event.compute();
+                                    // if(eventsAdapter.isUserPresent(event.))
+                                    Log.d("xds",doc.getNewIndex()+""+doc.getOldIndex());
+                                    eventsAdapter.added(event);
+                                    Log.d("added", "New city: " + doc.getDocument().getData());
+                                    break;
+                                case MODIFIED:
+                                    Log.d("modified", "Modified city: " + doc.getDocument().getData());
+                                    Log.d("modi",doc.getNewIndex()+""+doc.getOldIndex());
+                                    break;
+                                case REMOVED:
+                                    Log.d("removed", "Removed city: " + doc.getDocument().getData());
+                                    Log.d("remove",doc.getNewIndex()+""+doc.getOldIndex());
+                                    eventsAdapter.removed(doc.getDocument().getId());
+                                    break;
+                            }
+
+                            try{
+                                //Log.w(TAG, "Listen suxxx.",doc.getDocument(),toString());
+                            }catch(Exception f){
+                                Log.d("cedc","cecd");
+                            }
+
+
+                            //}
+                        }
+                    }
+                });*/
+
 
         return view;
     }
