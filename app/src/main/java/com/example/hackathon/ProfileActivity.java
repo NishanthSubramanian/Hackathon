@@ -3,6 +3,7 @@ package com.example.hackathon;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -20,6 +21,8 @@ public class ProfileActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private TextView year;
     private Button btnEditDetails;
+    private Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,12 +30,27 @@ public class ProfileActivity extends AppCompatActivity {
 
         firebaseAuth =  FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
+        toolbar = findViewById(R.id.profile_tb);
+        setSupportActionBar(toolbar);
+        toolbar.setTitle("Profile Details");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+
+            }
+        });
 
         user = (User) getIntent().getExtras().getSerializable("informal");
         Log.d("PRO",user.toString());
         tvProfileEmail = findViewById(R.id.tvProfileEmail);
         tvProfileContact = findViewById(R.id.tvProfileContact);
         year = findViewById(R.id.year);
+
+
 
         tvProfileEmail.setText(firebaseAuth.getCurrentUser().getEmail());
         tvProfileContact.setText(user.getPhone().toString());

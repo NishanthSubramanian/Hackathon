@@ -101,7 +101,6 @@ class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.MyViewHolder> {
 
         if(type == 0){
 
-
             if(user.getSaved().contains(event.getEventId())){
                 holder.isFavourite.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_black_24dp));
             }else{
