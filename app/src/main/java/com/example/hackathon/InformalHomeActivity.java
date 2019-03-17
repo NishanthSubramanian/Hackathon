@@ -103,6 +103,8 @@ GoingEventsActivity.OnFragmentInteractionListener,PastEventsActivity.OnFragmentI
                 case R.id.navigation_home:
                     return true;
                 case R.id.navigation_explore:
+                    Intent i=new Intent(getApplicationContext(),ExploreBaseActivity.class);
+                    startActivity(i);
                     return true;
                 case R.id.navigation_chats:
                     return true;

@@ -4,6 +4,7 @@ package com.example.hackathon;
 
 import android.content.Context;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -59,7 +60,9 @@ public class InformalCategoriesAdapter extends RecyclerView.Adapter<InformalCate
 
             @Override
             public void onClick(View v) {
-
+                Intent i = new Intent(context,ExploreFinalActivity.class);
+                i.putExtra("category",category);
+                context.startActivity(i);
             }});
     }
 

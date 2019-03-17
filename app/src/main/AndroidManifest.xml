@@ -29,6 +29,9 @@
             android:label="@string/title_activity_informal_home" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".LoginActivity" />
+        <activity android:name=".ExploreBaseActivity"></activity>
+        <activity android:name=".ExploreCategoriesActivity"></activity>
+        <activity android:name=".ExploreFinalActivity"></activity>
         <activity android:name=".CheckingActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

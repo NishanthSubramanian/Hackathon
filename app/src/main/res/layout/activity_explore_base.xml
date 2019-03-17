@@ -1,27 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/activity_explore_base"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:fillViewport="true">
 
-
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/appBar"
+    <android.support.constraint.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/activity_explore_base"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/explore_base_tb"
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/appBar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay">
+            android:layout_height="wrap_content"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="0dp"
+            android:theme="@style/AppTheme.AppBarOverlay"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <!--<EditText
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/explore_base_tb"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:popupTheme="@style/AppTheme.PopupOverlay">
+
+                <!--<EditText
                 android:id="@+id/explore_base_search_query"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
@@ -35,91 +46,117 @@
                 android:layout_weight="0.15"
                 android:src="@drawable/ic_search_black" />-->
 
-            <SearchView
-                android:id="@+id/explore_base_sv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:iconifiedByDefault="false"
-                android:queryHint="Search Here" />
-
-
-        </android.support.v7.widget.Toolbar>
-
-
-    </android.support.design.widget.AppBarLayout>
-
-    <LinearLayout
-        android:id="@+id/explore_base_ll"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/informalCard"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/appBar"
-            android:layout_marginTop="40dp"
-            android:layout_marginBottom="20dp"
-            app:cardCornerRadius="5sp">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1">
-
-                <TextView
+                <SearchView
+                    android:id="@+id/explore_base_sv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:paddingTop="20dp"
-                    android:paddingBottom="20dp"
-                    android:text="Informal events"
-                    android:textSize="25sp" />
-
-            </RelativeLayout>
+                    android:layout_alignParentTop="true"
+                    android:iconifiedByDefault="false"
+                    android:queryHint="Search Here" />
 
 
-        </android.support.v7.widget.CardView>
+            </android.support.v7.widget.Toolbar>
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/formalCard"
+
+        </android.support.design.widget.AppBarLayout>
+
+        <LinearLayout
+            android:id="@+id/explore_base_ll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/informalCard"
-            android:layout_marginBottom="20dp"
-            app:cardCornerRadius="5sp">
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/include"
+            app:layout_constraintTop_toBottomOf="@+id/appBar">
 
-            <RelativeLayout
+            <android.support.v7.widget.CardView
+                android:id="@+id/informalCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1">
+                android:layout_below="@+id/appBar"
+                android:layout_marginTop="40dp"
+                android:layout_marginBottom="20dp"
+                app:cardCornerRadius="5sp">
 
-                <TextView
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:paddingTop="20dp"
-                    android:paddingBottom="20dp"
-                    android:text="Formal events"
-                    android:textSize="25sp" />
+                    android:layout_gravity="center"
+                    android:layout_weight="1">
 
-            </RelativeLayout>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginTop="0dp"
+                        android:gravity="center"
+                        android:paddingTop="20dp"
+                        android:paddingBottom="20dp"
+                        android:text="Informal events"
+                        android:textSize="25sp" />
 
-
-        </android.support.v7.widget.CardView>
-    </LinearLayout>
-
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/explore_base_rv"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+                </RelativeLayout>
 
 
-    </android.support.v7.widget.RecyclerView>
+            </android.support.v7.widget.CardView>
 
-</LinearLayout>
+            <android.support.v7.widget.CardView
+                android:id="@+id/formalCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                app:cardCornerRadius="5sp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingTop="20dp"
+                        android:paddingBottom="20dp"
+                        android:text="Formal events"
+                        android:textSize="25sp" />
+
+                </RelativeLayout>
+
+
+            </android.support.v7.widget.CardView>
+        </LinearLayout>
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/explore_base_rv"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/appBar">
+
+
+        </android.support.v7.widget.RecyclerView>
+
+        <include
+            android:id="@+id/include"
+            layout="@layout/bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="56dp"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</ScrollView>

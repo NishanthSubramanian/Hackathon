@@ -4,6 +4,7 @@ package com.example.hackathon;
 
 import android.content.Context;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -12,8 +13,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
@@ -21,6 +25,7 @@ public class FormalCategoriesAdapter extends RecyclerView.Adapter<FormalCategori
 
     private ArrayList<String> categories;
     private Context context;
+    private RelativeLayout rl;
 
     public static class FormalCategoriesViewHolder extends RecyclerView.ViewHolder {
         TextView categoryName;
@@ -59,7 +64,9 @@ public class FormalCategoriesAdapter extends RecyclerView.Adapter<FormalCategori
 
             @Override
             public void onClick(View v) {
-
+                Intent i = new Intent(context,ExploreFinalActivity.class);
+                i.putExtra("category",category);
+                context.startActivity(i);
             }});
     }
 

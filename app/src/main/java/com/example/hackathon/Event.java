@@ -19,6 +19,26 @@ public class Event implements Serializable {
     private String senderUID;
     private String hostName, hostImage;
 
+    @Override
+    public String toString() {
+        return "Event{" +
+                "startDate='" + startDate + '\'' +
+                ", endDate=" + endDate +
+                ", eventId='" + eventId + '\'' +
+                ", isFormal=" + isFormal +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", participantsId=" + participantsId +
+                ", participants=" + participants +
+                ", location='" + location + '\'' +
+                ", category='" + category + '\'' +
+                ", creationTime=" + creationTime +
+                ", senderUID='" + senderUID + '\'' +
+                ", hostName='" + hostName + '\'' +
+                ", hostImage='" + hostImage + '\'' +
+                '}';
+    }
+
     public Event() {
     }
 
